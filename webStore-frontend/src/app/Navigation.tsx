@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const links = ["Home", "Shop", "About", "Contact"];
 
@@ -16,13 +17,13 @@ export default function Navbar() {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex gap-8">
                     {links.map((link) => (
-                        <a
+                        <Link
                             key={link}
-                            href={`#${link.toLowerCase()}`}
+                            to={`/${link.toLowerCase()}`}
                             className="text-gray-700 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-400 transition"
                         >
                             {link}
-                        </a>
+                        </Link>
                     ))}
                 </div>
 
