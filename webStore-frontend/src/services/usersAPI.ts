@@ -1,6 +1,6 @@
 import requesterAPI from "./requester";
 
-const BASE_URL = "http://webStore.test";
+const BASE_URL = "http://webStore-1.test";
 
 async function login(email: string, password: string) {
     const resp = await requesterAPI.post(BASE_URL + "/api/login", {
