@@ -4,9 +4,9 @@ import googleIco from "../assets/signupwith/google-logo-search-new-svgrepo-com.s
 import facebookIco from "../assets/signupwith/facebook-1-svgrepo-com.svg";
 import instagramIco from "../assets/signupwith/instagram-svgrepo-com.svg";
 import useForm from "../hooks/useForm";
-// import usersAPI from "../../services/usersAPI";
+import usersAPI from "../services/usersAPI";
 import { useNavigate } from "react-router-dom";
-const initialValues = { email: "", password: "", repassword: "" };
+const initialValues = { name: "", email: "", password: "", repassword: "" };
 export default function Register() {
     const [enabled, setEnabled] = useState(false);
     const [error, setError] = useState("");
@@ -14,14 +14,15 @@ export default function Register() {
     const { values, submitHandler, changeHandler } = useForm(
         initialValues,
         async () => {
-            const { email, password, repassword } = values;
+            const { name, email, password, repassword } = values;
             try {
+                // console.log(name, email, password, repassword);
                 if (password != repassword) {
                     setError("Incorrect Username or Password!");
                 } else {
                     setError("");
-                    // const user = usersAPI.register(email, password);
-                    // console.log(user);
+                    const user = usersAPI.register(name, email, password);
+                    console.log(user);
                     navigation("/login");
                 }
             } catch (error) {
@@ -48,6 +49,23 @@ export default function Register() {
                             {error}
                         </div>
                     )}
+                    {/* Name Field */}
+                    <div className="flex flex-col">
+                        <label
+                            htmlFor="name"
+                            className="text-sm font-medium text-gray-700"
+                        >
+                            Name
+                        </label>
+                        <input
+                            id="name"
+                            type="name"
+                            name="name"
+                            placeholder="Simeon"
+                            onChange={changeHandler}
+                            className="styledInput mt-1 px-3 py-2 border rounded-md shadow-sm focus:ring focus:ring-blue-200"
+                        />
+                    </div>
 
                     {/* Email Field */}
                     <div className="flex flex-col">
