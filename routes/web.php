@@ -6,15 +6,14 @@ Route::middleware([CustomCors::class])->group(function () {
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/api/login', function () {
-    return view('api.login');
-});
-Route::post('/api/login',[AuthController::class,'login']);
+Route::get('/api/login', [AuthController::class, 'showLogin']);
+Route::post('/api/login', [AuthController::class, 'login']);
+
+
+
 // register
-Route::get('/api/register', function () {
-    return view('api.register');
-});
-Route::post('/api/register',[AuthController::class,'register']);
+Route::get('/api/register', [AuthController::class, 'showRegister']);
+Route::post('/api/register', [AuthController::class, 'register']);
 // // 
 // Route::post('/api/logout',[AuthController::class,'logout']);
 });
