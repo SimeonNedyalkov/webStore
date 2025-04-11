@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User as ModelsUser;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -25,7 +26,25 @@ class AuthController extends Controller
        $user = ModelsUser::create();
         Auth::login($user);
     }
-    public function login(){
+    public function login(Request $request){
+        $validated = $request->validate([
+            "email"=>'required|email',
+            "password"=>'required|string'
+        ]);
 
+        if(Auth::attempt($validated)){
+            $request->session()->regenerate();
+            return redirect()->route('/');
+        };
+        throw ValidationException::withMessages([
+            'credentials'=>"Incorrect Credentials"
+        ]);
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('api.login');
     }
 }

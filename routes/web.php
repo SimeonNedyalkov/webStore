@@ -9,7 +9,7 @@ Route::get('/', function () {
 Route::get('/api/login', [AuthController::class, 'showLogin']);
 Route::post('/api/login', [AuthController::class, 'login']);
 
-
+Route::post('/api/logout', [AuthController::class, 'logout'])->name('logout');
 
 // register
 Route::get('/api/register', [AuthController::class, 'showRegister']);
