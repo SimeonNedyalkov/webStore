@@ -12,56 +12,54 @@ class AuthController extends Controller
 {
     
     public function login(LoginRequest $request){
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        // If validation fails, return errors
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-        $data=$request->validated();
-        if(Auth::attempt($data)){
-            return response([
-                'message'=>'Email or Password is incorrect'
-            ]);
+        $request->validate([
+            "email":"required|email",
+            "password":'required'
+        ])
+        if(!Auth::attempt($request->only('email','password'))){
+            return response()->json([
+                "status"=>false,
+                "message"=>"Invalid cridentials"
+            ])
         }
         $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->createToken('auth')->plainTextToken
         return response()->json([
-            'user'=>$user,
-            'token'=>$token
-        ]);
+            "status"=>true,
+            "message"=>"User logged in successfully",
+            "token"=>$token
+        ])
     }
     public function register(RegisterRequest $request){
-        $validator = Validator::make($request->all(), [
+        $data = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // If validation fails, return errors
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-        $data=$request->validated();
-        $user = User::create([
-            "name"=>$data['name'],
-            'email'=>$data["email"],
-            "password"=>bcrypt($data['password'])
-        ]);
-        $token = $user->createToken('main')->plainTextToken;
+        User::create($data)
         return response()->json([
-            'user'=>$user,
-            'token'=>$token
-        ]);
+            "status"=>true,
+            "message"=>"User registered successfully"
+        ])
+
+        
     }
 
     public function logout(Request $request){
         $user =$request->user();
-        $user->currentAuthToken()->delete();
-        return response('',204);
+        
+        return response()->json([
+            "status"=>true,
+            "message"=>"User prifle data",
+            "user" =>$user
+        ])
+    }
+    public function profile(Request $request){
+        Auth::logout();
+        return response()->json([
+            "status"=>true,
+            "message"=>"User logged out successfully",
+        ])
     }
 }

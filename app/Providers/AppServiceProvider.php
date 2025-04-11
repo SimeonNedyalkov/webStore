@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Routing\Router;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -20,5 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        $router = app(Router::class);
+        $router->aliasMiddleware('auth:sanctum', \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class);
     }
 }

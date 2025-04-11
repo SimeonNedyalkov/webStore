@@ -14,4 +14,12 @@ Route::get('/api/register', function () {
     return view('api.register');
 });
 Route::post('/api/register',[AuthController::class,'register']);
-Route::post('/api/logout',[AuthController::class,'logout']);
+// // 
+// Route::post('/api/logout',[AuthController::class,'logout']);
+
+Route::group([
+    "middleware"=>['auth:sanctum']
+],function(){
+    Route::get('profile',AuthController::class,'profile')
+    Route::get('logout',AuthController::class,'logout')
+})
