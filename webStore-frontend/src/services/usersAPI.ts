@@ -18,17 +18,17 @@ async function register(name: string, email: string, password: string) {
     return resp;
 }
 
-// async function getStatus(accessToken: string) {
-//     const resp = await fetch(BASE_URL + "/api/status", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${accessToken}`,
-//         },
-//     });
-//     return resp;
-// }
+async function getStatus(accessToken: string) {
+    const resp = await fetch(BASE_URL + "/api/status", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+    return resp;
+}
 
-// const usersAPI = { login, register, getStatus };
-const usersAPI = { login, register };
+const usersAPI = { login, register, getStatus };
+// const usersAPI = { login, register };
 export default usersAPI;

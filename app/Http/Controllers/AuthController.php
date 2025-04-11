@@ -13,22 +13,22 @@ class AuthController extends Controller
     
     public function login(LoginRequest $request){
         $request->validate([
-            "email":"required|email",
-            "password":'required'
-        ])
+            "email"=>"required|email",
+            "password"=>'required'
+        ]);
         if(!Auth::attempt($request->only('email','password'))){
             return response()->json([
                 "status"=>false,
                 "message"=>"Invalid cridentials"
-            ])
-        }
+            ]);
+        };
         $user = Auth::user();
-        $token = $user->createToken('auth')->plainTextToken
+        $token = $user->createToken('auth')->plainTextToken;
         return response()->json([
             "status"=>true,
             "message"=>"User logged in successfully",
             "token"=>$token
-        ])
+        ]);
     }
     public function register(RegisterRequest $request){
         $data = Validator::make($request->all(), [
@@ -37,11 +37,11 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        User::create($data)
+        User::create($data);
         return response()->json([
             "status"=>true,
             "message"=>"User registered successfully"
-        ])
+        ]);
 
         
     }
@@ -53,13 +53,13 @@ class AuthController extends Controller
             "status"=>true,
             "message"=>"User prifle data",
             "user" =>$user
-        ])
+        ]);
     }
     public function profile(Request $request){
         Auth::logout();
         return response()->json([
             "status"=>true,
             "message"=>"User logged out successfully",
-        ])
+        ]);
     }
 }

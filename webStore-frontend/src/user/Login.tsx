@@ -4,7 +4,7 @@ import googleIco from "../assets/signupwith/google-logo-search-new-svgrepo-com.s
 import facebookIco from "../assets/signupwith/facebook-1-svgrepo-com.svg";
 import instagramIco from "../assets/signupwith/instagram-svgrepo-com.svg";
 import useForm from "../hooks/useForm";
-// import usersAPI from "../../services/usersAPI";
+import usersAPI from "../services/usersAPI";
 import { useNavigate } from "react-router-dom";
 // import { useAuthContext } from "../../contexts/UserContext";
 
@@ -16,29 +16,33 @@ export default function Login() {
     const navigate = useNavigate();
     // const { changeAuthState } = useAuthContext();
 
-    // const { values, submitHandler, changeHandler } = useForm(initialValues, async () => {
-    //     const { email, password } = values;
-    //     try {
-    //         const accessToken = await usersAPI.login(email, password);
-    //         if (!accessToken) throw new Error("Login failed: Invalid credentials.");
+    const { values, submitHandler, changeHandler } = useForm(
+        initialValues,
+        async () => {
+            const { email, password } = values;
+            try {
+                const accessToken = await usersAPI.login(email, password);
+                if (!accessToken)
+                    throw new Error("Login failed: Invalid credentials.");
 
-    //         const userStatus = await usersAPI.getStatus(accessToken);
-    //         const userData = await userStatus.json();
+                const userStatus = await usersAPI.getStatus(accessToken);
+                const userData = await userStatus.json();
 
-    //         const updatedAuthState = {
-    //             user: {
-    //                 email: userData.email,
-    //                 _id: userData._id,
-    //                 accessToken,
-    //             },
-    //         };
+                const updatedAuthState = {
+                    user: {
+                        email: userData.email,
+                        _id: userData._id,
+                        accessToken,
+                    },
+                };
 
-    //         changeAuthState(updatedAuthState);
-    //         navigate("/");
-    //     } catch (err) {
-    //         setError(err.message || "Something went wrong. Please try again.");
-    //     }
-    // });
+                // changeAuthState(updatedAuthState);
+                navigate("/");
+            } catch (err) {
+                setError("Something went wrong. Please try again.");
+            }
+        }
+    );
 
     return (
         <div className="loginForm min-h-screen flex items-center justify-center bg-gray-50 p-6">

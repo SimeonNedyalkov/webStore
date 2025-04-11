@@ -21,9 +21,11 @@ export default function Register() {
                     setError("Incorrect Username or Password!");
                 } else {
                     setError("");
-                    const user = usersAPI.register(name, email, password);
+                    const user = await usersAPI.register(name, email, password);
                     console.log(user);
-                    navigation("/login");
+                    if (user) {
+                        navigation("/login");
+                    }
                 }
             } catch (error) {
                 setError("Warning incorrect email or password");

@@ -1,7 +1,8 @@
 <?php
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\CustomCors;
+Route::middleware([CustomCors::class])->group(function () {
 Route::get('/', function () {
     return view('welcome');
 });
@@ -16,10 +17,11 @@ Route::get('/api/register', function () {
 Route::post('/api/register',[AuthController::class,'register']);
 // // 
 // Route::post('/api/logout',[AuthController::class,'logout']);
-
+});
 Route::group([
     "middleware"=>['auth:sanctum']
 ],function(){
-    Route::get('profile',AuthController::class,'profile')
-    Route::get('logout',AuthController::class,'logout')
-})
+    Route::get('/api/profile',[AuthController::class]);
+    Route::get('/api/logout', [AuthController::class]);
+
+});

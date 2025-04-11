@@ -3,12 +3,14 @@ async function requester(method: any, url: string, data: any) {
         headers: { [key: string]: string };
         body?: string;
         method: string;
+        credentials: RequestCredentials;
     } = {
         headers: {
             "Content-type": "application/json",
         },
         body: JSON.stringify(data),
         method: "GET",
+        credentials: "include",
     };
 
     if (data) {
