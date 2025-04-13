@@ -2,21 +2,22 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CustomCors;
-Route::middleware([CustomCors::class])->group(function () {
+
 Route::get('/', function () {
     return view('welcome');
-});
-Route::get('/api/login', [AuthController::class, 'showLogin']);
-Route::post('/api/login', [AuthController::class, 'login']);
+})->name('welcome');
 
+// login
+Route::get('/api/login', [AuthController::class, 'showLogin'])->name('show.login');
+Route::post('/api/login', [AuthController::class, 'login'])->name('login');
+
+// logout
 Route::post('/api/logout', [AuthController::class, 'logout'])->name('logout');
 
 // register
-Route::get('/api/register', [AuthController::class, 'showRegister']);
-Route::post('/api/register', [AuthController::class, 'register']);
-// // 
-// Route::post('/api/logout',[AuthController::class,'logout']);
-});
+Route::get('/api/register', [AuthController::class, 'showRegister'])->name('show.register');
+Route::post('/api/register', [AuthController::class, 'register'])->name('register');
+
 Route::group([
     "middleware"=>['auth:sanctum']
 ],function(){

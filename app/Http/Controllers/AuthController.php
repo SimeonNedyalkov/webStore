@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User as ModelsUser;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -23,8 +23,9 @@ class AuthController extends Controller
             "password"=>'required|string|min:8|confirmed'
         ]);
 
-       $user = ModelsUser::create();
+       $user = User::create($validated);
         Auth::login($user);
+        return redirect()->route('welcome');
     }
     public function login(Request $request){
         $validated = $request->validate([
@@ -34,7 +35,7 @@ class AuthController extends Controller
 
         if(Auth::attempt($validated)){
             $request->session()->regenerate();
-            return redirect()->route('/');
+            return redirect()->route('welcome');
         };
         throw ValidationException::withMessages([
             'credentials'=>"Incorrect Credentials"
@@ -45,6 +46,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('api.login');
+        return redirect()->route('show.login');
     }
 }

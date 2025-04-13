@@ -9,13 +9,18 @@
 <body>
 <nav class="bg-blue-600 text-white shadow-md w-full">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">webStore</div>
-
+            <a href="/" class="text-2xl font-bold">webStore</a>
+            
             <div class="hidden md:flex space-x-6">
+                @guest
                 <a href="/api/login" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Login</a>
                 <a href="/api/register" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Register</a>
+                @endguest
                 <form action="{{route('logout')}}" method="POST" >
                 @csrf
+                @auth
+            <span class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">{{Auth::user()->name}}</span>
+            @endauth
                 <button class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Logout</button>
             </form>
                 <a href="#contact" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Contact</a>
@@ -28,6 +33,7 @@
                     </svg>
                 </button>
             </div>
+            
         </div>
 
         <div id="mobileMenu" class="md:hidden bg-blue-700 text-white space-y-4 py-4 px-6 hidden">
@@ -40,6 +46,7 @@
             <!-- <a href="logout" class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Logout</a> -->
             <a href="#contact" class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Contact</a>
         </div>
+        
     </nav>
     <main>
         {{$slot}}

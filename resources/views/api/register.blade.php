@@ -10,7 +10,7 @@
                 <!-- Username Field -->
                 <div class="mb-4">
                     <label for="username" class="block text-sm font-medium text-gray-600">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" value="{{ old('username') }}" required
+                    <input type="text" id="name" name="name" placeholder="Enter your username" value="{{ old('username') }}" required
                         class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 @error('username') border-red-500 @enderror">
                     @error('username')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
