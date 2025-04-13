@@ -16,11 +16,12 @@
                 <a href="/api/login" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Login</a>
                 <a href="/api/register" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Register</a>
                 @endguest
+                @auth
+                <span class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Hello, {{Auth::user()->name}}</span>
+                @endauth
                 <form action="{{route('logout')}}" method="POST" >
                 @csrf
-                @auth
-            <span class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">{{Auth::user()->name}}</span>
-            @endauth
+            
                 <button class="block hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Logout</button>
             </form>
                 <a href="#contact" class="hover:bg-blue-500 px-4 py-2 rounded-lg transition duration-200">Contact</a>
